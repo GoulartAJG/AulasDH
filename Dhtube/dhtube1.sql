@@ -1,0 +1,88 @@
+CREATE SCHEMA `DHTube`
+DEFAULT CHARSET = 'utf8mb4'
+DEFAULT COLLATE = 'utf8mb4_general_ci'
+;
+
+USE `DHTube`;
+
+CREATE TABLE Pais 
+(
+nPaisID INT (20) UNSIGNED AUTO_INCREMENT,
+strNome VARCHAR(100),
+PRIMARY KEY (nPaisID)
+);
+
+CREATE TABLE Avatar
+(
+nAvatarID INT(20) UNSIGNED AUTO_INCREMENT,
+strNome VARCHAR(50),
+strURLImagem VARCHAR(100),
+PRIMARY KEY (nAvatarID)
+);
+
+CREATE TABLE Usuario
+(
+nUsuarioID INT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+strNome VARCHAR(50),
+strEmail VARCHAR(50),
+strSenha VARCHAR(50),
+dtDataNascimento DATETIME,
+strCep VARCHAR(50),
+nIdPaisU INT(20) UNSIGNED,
+nIdAvatarU INT(20) UNSIGNED,
+CONSTRAINT FK_Pais_Usuario FOREIGN KEY (nIdPaisU)
+REFERENCES Pais (nPaisID),
+CONSTRAINT FK_Avatar_Usuario FOREIGN KEY (nIdAvatarU)
+REFERENCES Avatar (nAvatarID)
+);
+
+CREATE TABLE Playlist
+(
+nPlaylistID INT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+strNome VARCHAR(50),
+dtDataCriacao DATETIME,
+strPrivado SMALLINT(10),
+nIDUsuarioP INT(20) UNSIGNED,
+CONSTRAINT FK_Usuario_Playlist FOREIGN KEY (nIDUsuarioP) 
+REFERENCES Usuario (nUsuarioID)
+);
+
+CREATE TABLE Canal
+(
+nCanalID INT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+strNome VARCHAR(50),
+strDescricao TEXT,
+dtDataCriacao DATETIME,
+nIDUsuarioC INT(20) UNSIGNED,
+CONSTRAINT FK_Usuario_Canal FOREIGN KEY (nIDUsuarioC)
+REFERENCES Usuario (nUsuarioID)
+);
+
+CREATE TABLE Video
+(
+nVideoID INT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+strTitulo VARCHAR(100),
+strDescricao TEXT,
+strTamanho DOUBLE,
+strArquivo VARCHAR(100),
+strDuracao DOUBLE,
+strImagem VARCHAR(100),
+strqtdReproducoes INT(20),
+strqtdLikes INT(20),
+strqtdDislikes INT(20),
+strPrivado SMALLINT(10),
+dtDataPublicacao DATETIME,
+nIDUsuarioV INT(20) UNSIGNED,
+CONSTRAINT FK_Usuario_Video FOREIGN KEY (nIDUsuarioV) 
+REFERENCES Usuario (nUsuarioID)
+);
+
+CREATE TABLE Playlist_Video
+(
+nIDVideoPV INT(20) UNSIGNED,
+nIDPlaylistPV INT(20) UNSIGNED,
+CONSTRAINT FK_Video_Playlist_Video FOREIGN KEY (nIDVideoPV) 
+REFERENCES Video (nVideoID),
+CONSTRAINT FK_Playlist_Playlist_Video FOREIGN KEY (nIDPlaylistPV)
+REFERENCES Playlist (nPlaylistID)
+);
