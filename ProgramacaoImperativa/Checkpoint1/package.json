@@ -1,0 +1,14 @@
+{
+  "name": "checkpoint-1",
+  "lockfileVersion": 2,
+  "requires": true,
+  "packages": {},
+  "version": "1.0.0",
+  "description": "Checkpoint1",
+  "main": "checkpoint1.js",
+  "scripts": {
+    "test": "\"test\": \"echo \\ \" Error: no test especified\\\" && exit 1\" "
+  },
+  "author": "GoulartAJG",
+  "license": "ISC"
+}
